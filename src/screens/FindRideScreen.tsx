@@ -287,7 +287,7 @@ const styles = StyleSheet.create({
     lineHeight: 14,
     fontSize: 14,
     fontWeight: '500',
-    marginLeft: windowWidth * 0.02,
+    marginLeft: windowWidth * 0.04,
   },
   nextBtn: {
     backgroundColor: '#3C5FAC',
