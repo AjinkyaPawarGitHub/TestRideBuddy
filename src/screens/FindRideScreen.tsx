@@ -8,10 +8,14 @@ import {
   View,
 } from 'react-native';
 import React, {useState} from 'react';
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+import 'react-native-get-random-values';
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 const FindRideScreen = () => {
   const [count, setCount] = useState<any>(2);
+  const [pickup, setPickup] = useState('');
+  const [destination, setDestination] = useState('');
 
   const increament = () => {
     setCount(count + 1);
@@ -21,6 +25,7 @@ const FindRideScreen = () => {
       setCount(count - 1);
     }
   };
+
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -66,17 +71,31 @@ const FindRideScreen = () => {
                 <View style={styles.blueCircle1}>
                   <View style={styles.blueCircle}></View>
                 </View>
-                <View>
-                  <Text style={styles.addressText}>Bypass Indore, MP</Text>
-                </View>
+                <GooglePlacesAutocomplete
+                  placeholder="Enter pickup location"
+                  onPress={(data, details = null) => {
+                    setPickup(data.description);
+                  }}
+                  query={{
+                    key: 'AIzaSyB32LL4XKWDvHCroQ7RqPu2g6XHgVYaHto',
+                    language: 'en',
+                  }}
+                  suppressDefaultStyles
+                  textInputProps={{
+                    value: pickup,
+                    onChangeText: text => setPickup(text),
+                    style: styles.addressText,
+                  }}
+                />
               </View>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => setPickup('')}>
                 <Image
                   source={require('../assets/images/charm_cross.png')}
                   style={styles.cross}
                 />
               </TouchableOpacity>
             </View>
+
             <View style={styles.dottedLine} />
 
             <View style={styles.box}>
@@ -87,19 +106,31 @@ const FindRideScreen = () => {
                     source={require('../assets/images/LocationMarker.png')}
                   />
                 </View>
-                <View>
-                  <Text style={styles.addressText}>
-                    Raja Bhoj, Bairagarh, Bhopal, MP
-                  </Text>
-                </View>
+                <GooglePlacesAutocomplete
+                  placeholder="Enter drop location"
+                  onPress={(data, details = null) => {
+                    setDestination(data.description);
+                  }}
+                  query={{
+                    key: 'AIzaSyB32LL4XKWDvHCroQ7RqPu2g6XHgVYaHto',
+                    language: 'en',
+                  }}
+                  suppressDefaultStyles
+                  textInputProps={{
+                    value: destination,
+                    onChangeText: text => setDestination(text),
+                    style: styles.addressText,
+                  }}
+                />
               </View>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => setDestination('')}>
                 <Image
                   source={require('../assets/images/charm_cross.png')}
                   style={styles.cross}
                 />
               </TouchableOpacity>
             </View>
+
             <TouchableOpacity style={styles.dateBox}>
               <Image
                 source={require('../assets/images/day.png')}
@@ -162,6 +193,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: windowWidth * 0.03,
+    marginTop: windowHeight * 0.01,
   },
   blueCircle: {
     height: windowHeight * 0.015,
@@ -180,6 +212,7 @@ const styles = StyleSheet.create({
     height: windowHeight * 0.03,
     width: windowWidth * 0.06,
     marginRight: windowWidth * 0.03,
+    marginTop: windowHeight * 0.007,
   },
   whiteContainer: {
     backgroundColor: '#FFFFFF',
@@ -268,8 +301,7 @@ const styles = StyleSheet.create({
     borderLeftWidth: 2,
     borderColor: '#DADADA',
     borderStyle: 'dotted',
-    height: 50,
-    // marginVertical: 10,
+    height: 70,
     position: 'absolute',
     left: windowWidth * 0.06,
     top: windowHeight * 0.06,

@@ -295,7 +295,7 @@ const styles = StyleSheet.create({
   descBox: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginLeft: windowWidth * 0.22,
+    marginLeft: windowWidth * 0.15,
   },
   basicKey: {
     color: '#132235',
@@ -339,7 +339,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   tripBox: {
-    marginLeft: windowWidth * 0.58,
+    marginLeft: windowWidth * 0.5,
   },
   tripText: {
     color: '#0D0D1B',
