@@ -6,16 +6,23 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Platform,
 } from 'react-native';
 import React, {useState} from 'react';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import 'react-native-get-random-values';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import config from 'react-native-config';
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
+
 const FindRideScreen = () => {
   const [count, setCount] = useState<any>(2);
   const [pickup, setPickup] = useState('');
   const [destination, setDestination] = useState('');
+  const [date, setDate] = useState('');
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
   const increament = () => {
     setCount(count + 1);
@@ -24,6 +31,13 @@ const FindRideScreen = () => {
     if (count > 0) {
       setCount(count - 1);
     }
+  };
+
+  const handleDateChange = (event: any, selectedDate: Date | undefined) => {
+    const currentDate: any = selectedDate || date;
+    setShowDatePicker(false);
+    setSelectedDate(currentDate);
+    setDate(currentDate.toLocaleDateString());
   };
 
   return (
@@ -72,12 +86,13 @@ const FindRideScreen = () => {
                   <View style={styles.blueCircle}></View>
                 </View>
                 <GooglePlacesAutocomplete
+                  isRowScrollable
                   placeholder="Enter pickup location"
                   onPress={(data, details = null) => {
                     setPickup(data.description);
                   }}
                   query={{
-                    key: 'AIzaSyB32LL4XKWDvHCroQ7RqPu2g6XHgVYaHto',
+                    key: config.API_KEY,
                     language: 'en',
                   }}
                   suppressDefaultStyles
@@ -107,12 +122,13 @@ const FindRideScreen = () => {
                   />
                 </View>
                 <GooglePlacesAutocomplete
+                  isRowScrollable
                   placeholder="Enter drop location"
                   onPress={(data, details = null) => {
                     setDestination(data.description);
                   }}
                   query={{
-                    key: 'AIzaSyB32LL4XKWDvHCroQ7RqPu2g6XHgVYaHto',
+                    key: config.API_KEY,
                     language: 'en',
                   }}
                   suppressDefaultStyles
@@ -131,13 +147,25 @@ const FindRideScreen = () => {
               </TouchableOpacity>
             </View>
 
-            <TouchableOpacity style={styles.dateBox}>
+            <TouchableOpacity
+              style={styles.dateBox}
+              onPress={() => setShowDatePicker(true)}>
               <Image
                 source={require('../assets/images/day.png')}
                 style={styles.date}
               />
-              <Text style={styles.dateText}>Today</Text>
+              <Text style={styles.dateText}>{date || 'Today'}</Text>{' '}
+              {/* Display the selected date */}
             </TouchableOpacity>
+
+            {showDatePicker && (
+              <DateTimePicker
+                value={selectedDate}
+                mode="date"
+                display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                onChange={handleDateChange}
+              />
+            )}
 
             <View style={styles.flexBox}>
               <View style={styles.flex}>
