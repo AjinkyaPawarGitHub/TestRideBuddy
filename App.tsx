@@ -3,13 +3,14 @@ import React from 'react';
 import TripSummaryScreen from './src/screens/TripSummaryScreen';
 import FindRideScreen from './src/screens/FindRideScreen';
 import GooglePlacesInput from './src/components/GooglePlacesInput';
+import RideListScreen from './src/screens/RideListScreen';
 
 const App = () => {
   return (
     <View>
-      <FindRideScreen />
+      {/* <FindRideScreen /> */}
       {/* <TripSummaryScreen /> */}
-      {/* <GooglePlacesInput /> */}
+      <RideListScreen />
     </View>
   );
 };
